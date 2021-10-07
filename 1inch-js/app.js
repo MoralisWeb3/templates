@@ -25,9 +25,6 @@ async function logOut() {
 }
 
 async function getSupportedTokens() {
-  if (user == null) {
-    login();
-  }
   // Get chains
   const chain = document.getElementById("chain").value;
   const tokens = await Moralis.Plugins.oneInch.getSupportedTokens({
@@ -67,7 +64,7 @@ async function getQuote() {
 
 async function hasAllowance() {
   if (user == null) {
-    login();
+    await login();
   }
   const chain = document.getElementById("chain").value;
   const fromTokenAddress = document.getElementById("fromToken").value;
@@ -84,7 +81,7 @@ async function hasAllowance() {
 
 async function approve() {
   if (user == null) {
-    login();
+    await login();
   }
   const chain = document.getElementById("chain").value;
   const fromTokenAddress = document.getElementById("fromToken").value;
@@ -97,7 +94,7 @@ async function approve() {
 
 async function swap() {
   if (user == null) {
-    login();
+    await login();
   }
   const chain = document.getElementById("chain").value;
   const fromTokenAddress = document.getElementById("fromToken").value;
