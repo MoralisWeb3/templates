@@ -1,4 +1,6 @@
+// Your ApplicationID goes here
 Moralis.initialize("***");
+// Your server URL goes here
 Moralis.serverURL = "***";
 
 let web3;
@@ -23,6 +25,9 @@ async function logOut() {
 }
 
 async function getSupportedTokens() {
+  if (user == null) {
+    login();
+  }
   // Get chains
   const chain = document.getElementById("chain").value;
   const tokens = await Moralis.Plugins.oneInch.getSupportedTokens({
@@ -49,30 +54,38 @@ async function getQuote() {
   const chain = document.getElementById("chain").value;
   const fromTokenAddress = document.getElementById("fromToken").value;
   const toTokenAddress = document.getElementById("toToken").value;
+  const amount = Number(document.getElementById("amountToSwap").value);
   const quote = await Moralis.Plugins.oneInch.quote({
     chain, // The blockchain you want to use (eth/bsc/polygon)
     fromTokenAddress, // The token you want to swap
     toTokenAddress, // The token you want to receive
-    amount: 1000,
+    amount,
   });
   document.getElementById("result").innerHTML = JSON.stringify(quote);
   console.log(quote);
 }
 
 async function hasAllowance() {
+  if (user == null) {
+    login();
+  }
   const chain = document.getElementById("chain").value;
   const fromTokenAddress = document.getElementById("fromToken").value;
+  const amount = Number(document.getElementById("amountToSwap").value);
   const allowance = await Moralis.Plugins.oneInch.hasAllowance({
     chain, // The blockchain you want to use (eth/bsc/polygon)
     fromTokenAddress, // The token you want to swap
     fromAddress: user.attributes.accounts[0], // Your wallet address
-    amount: 1000,
+    amount,
   });
   document.getElementById("result").innerHTML = JSON.stringify(allowance);
   console.log(`The user has enough allowance: ${allowance}`);
 }
 
 async function approve() {
+  if (user == null) {
+    login();
+  }
   const chain = document.getElementById("chain").value;
   const fromTokenAddress = document.getElementById("fromToken").value;
   await Moralis.Plugins.oneInch.approve({
@@ -83,14 +96,18 @@ async function approve() {
 }
 
 async function swap() {
+  if (user == null) {
+    login();
+  }
   const chain = document.getElementById("chain").value;
   const fromTokenAddress = document.getElementById("fromToken").value;
   const toTokenAddress = document.getElementById("toToken").value;
+  const amount = Number(document.getElementById("amountToSwap").value);
   const receipt = await Moralis.Plugins.oneInch.swap({
     chain, // The blockchain you want to use (eth/bsc/polygon)
     fromTokenAddress, // The token you want to swap
     toTokenAddress, // The token you want to receive
-    amount: 1000,
+    amount,
     fromAddress: user.attributes.accounts[0], // Your wallet address
     slippage: 1,
   });
