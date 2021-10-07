@@ -15,30 +15,56 @@
     <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
   </head>
   <body>
-    <img
-      alt="Moralis logo"
-      height="200"
-      src="https://moralis.io/wp-content/uploads/2021/06/Moralis-Glass-Favicon.svg"
-    />
-    <img
-      alt="1inch logo"
-      height="200"
-      src="https://moralis.io/wp-content/uploads/2021/09/newFiatIcon.svg"
-    />
-    <br /><br />
-    <button id="btn-login">Moralis Login</button>
-    <button id="btn-logout">Logout</button>
+    <div class="container p-3">
+      <img
+        alt="Moralis logo"
+        height="200"
+        src="https://moralis.io/wp-content/uploads/2021/06/Moralis-Glass-Favicon.svg"
+      />
+      <img
+        alt="1inch logo"
+        height="200"
+        src="https://moralis.io/wp-content/uploads/2021/09/newFiatIcon.svg"
+      />
+      <br /><br />
+      <div class="card mt-5">
+        <div class="card-header">
+          <h6>Fiat Onramp Moralis Plugin</h6>
+        </div>
+        <div class="card-body">
+          <br /><br />
+          <button id="btn-login" class="btn btn-success">Moralis Login</button>
+          <button id="btn-logout" class="btn btn-danger">Logout</button>
+          <br /><br /><br />
+          <br />
+          <div class="row">
+            <div class="form-group col-md-6 m-3">
+              <label for="method" class="control-label">Choose Method:</label>
+              <select class="form-control" id="method">
+                <option value="iframe">Iframe</option>
+                <option value="redirect">Redirect</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6 m-3">
+              <label for="coin">Choose a coin:</label>
+              <select id="coin" class="form-control">
+                <option value="usdc">USD coin</option>
+                <option value="eth">Ethereum</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6 m-3">
+              <label for="address">Receiver Address:</label>
+              <input id="address" class="form-control" />
+            </div>
+          </div>
+          <button class="btn btn-primary m-3" id="btn-buy">Buy</button>
 
-    <br /><br /><br />
-    <span>Fiat Onramp Moralis Plugin</span>
-    <br /><br />
-    <br />
+          <iframe height="400" width="600" id="iframeid"> </iframe>
 
-    <iframe height="400" width="600" id="iframeid"> </iframe>
-
-    <button class="btn btn-info m-3" id="btn-buy">Buy</button>
-
-    <code id="result"></code>
+          <code id="result"></code>
+        </div>
+      </div>
+    </div>
 
     <script>
       // Use your server details here
@@ -65,16 +91,25 @@
       }
 
       async function buy() {
+        if (user == null) {
+          await login();
+        }
+        const coin = document.getElementById("coin").value;
+        const receiver = document.getElementById("address").value;
+        const method = document.getElementById("method").value;
         let response = await Moralis.Plugins.fiat.buy(
-          { coin: "usdc", receiver: user.attributes.accounts[0] },
+          { coin, receiver },
           { disableTriggers: true }
         );
 
         console.log("result", response);
+        if (method == "iframe") {
+          document.getElementById("iframeid").style.display = "block";
 
-        document.getElementById("iframeid").style.display = "block";
-
-        document.getElementById("iframeid").src = response.data;
+          document.getElementById("iframeid").src = response.data;
+        } else {
+          window.open(response.data, "_blank");
+        }
       }
 
       document.getElementById("btn-buy").onclick = buy;
