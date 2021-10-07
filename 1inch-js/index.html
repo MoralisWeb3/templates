@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    />
+    <title>1inch BoilerPlate</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+  </head>
+  <body>
+    <div class="container p-3">
+      <img
+        alt="Moralis logo"
+        height="200"
+        src="https://moralis.io/wp-content/uploads/2021/06/Moralis-Glass-Favicon.svg"
+      />
+      <img
+        alt="1inch logo"
+        height="200"
+        src="https://www.pngall.com/wp-content/uploads/10/1inch-Crypto-Logo-PNG-Pic.png"
+      />
+      <div class="card mt-5">
+        <div class="card-header">
+          <h6>1inch Moralis Plugin</h6>
+        </div>
+        <div class="card-body">
+          <br /><br />
+          <button id="btn-login" class="btn btn-success">Moralis Login</button>
+          <button id="btn-logout" class="btn btn-danger">Logout</button>
+
+          <br /><br /><br />
+          <br /><br />
+          <div class="row">
+            <div class="form-group col-md-6 m-3">
+              <label for="chains" class="control-label">Choose a chain:</label>
+              <select class="form-control" id="chain">
+                <option value="eth">Ethereum</option>
+                <option value="bsc">Binance smart chain</option>
+                <option value="polygon">Polygon</option>
+              </select>
+            </div>
+          </div>
+
+          <br />
+          <button id="btn-getsupportedtokens" class="btn btn-info">
+            Get Supported Tokens
+          </button>
+          <br /><br /><br />
+          <div class="row">
+            <div class="form-group col-md-6 m-3">
+              <label for="fromToken">Choose a FROM token:</label>
+              <select id="fromToken" class="form-control"></select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6 m-3">
+              <label for="toToken">Choose a TO token:</label>
+              <select id="toToken" class="form-control"></select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-6 m-3">
+              <label for="amountToSwap">Amount to Swap:</label>
+              <input id="amountToSwap" class="form-control" />
+            </div>
+          </div>
+
+          <button class="btn btn-primary m-3" id="btn-getquote">
+            Get Quote
+          </button>
+          <button class="btn btn-primary m-3" id="btn-hasallowance">
+            Has Allowance
+          </button>
+          <button class="btn btn-primary m-3" id="btn-approve">Approve</button>
+          <button class="btn btn-primary m-3" id="btn-swap">Swap</button>
+          <br />
+          <code id="result"></code>
+        </div>
+      </div>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
